@@ -1,0 +1,6 @@
+{
+  "jsPlugins": ["./plugin/index.js"],
+  "rules": {
+    "repro/noop": "error"
+  }
+}

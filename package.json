@@ -1,0 +1,15 @@
+{
+  "name": "oxlint-fixed-size-pool-repro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "oxlint",
+    "lint:native": "oxlint -c .oxlintrc.native.json",
+    "typecheck": "tsc-ts --noEmit",
+    "repro": "./repro.sh"
+  },
+  "devDependencies": {
+    "oxlint": "1.90.0",
+    "tsc-ts": "0.0.10"
+  }
+}

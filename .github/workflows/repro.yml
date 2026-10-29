@@ -1,0 +1,31 @@
+name: Repro
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  oxlint:
+    name: ${{ matrix.runner }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-slim]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Memory accounting
+        run: |
+          cat /proc/sys/vm/overcommit_memory /proc/sys/vm/overcommit_ratio
+          grep -E 'MemTotal|SwapTotal|CommitLimit|Committed_AS' /proc/meminfo
+          nproc
+      - run: bun run typecheck
+      - name: Lint with native rules only
+        run: bun run lint:native
+      - name: Lint with a JS plugin
+        run: bun run lint
