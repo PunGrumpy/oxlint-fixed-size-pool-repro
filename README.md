@@ -4,6 +4,8 @@ oxlint aborts before linting when JS plugins are configured and Linux refuses a 
 
 Upstream: oxc-project/oxc#20331. Proposed fix: oxc-project/oxc#27356.
 
+GitHub runs: https://github.com/PunGrumpy/oxlint-fixed-size-pool-repro/actions/runs/40807872534
+
 ```
 thread 'tokio-rt-worker' panicked at crates/oxc_allocator/src/pool/fixed_size.rs:112:67:
 called `Result::unwrap()` on an `Err` value: ()
@@ -15,7 +17,9 @@ called `Result::unwrap()` on an `Err` value: ()
 | --- | --- | --- | --- |
 | Docker Desktop VM, 4 GB RAM, 1 GB swap | 1 | pass | pass |
 | Docker Desktop VM, 4 GB RAM, 1 GB swap | 0 | pass | exit 134 |
-| Vercel CI task, 2 vCPU / 4 GB, no swap | 0 | | exit 134 |
+| GitHub `ubuntu-slim`, 5 GB RAM, no swap | 0 | pass | exit 134 |
+| GitHub `ubuntu-latest`, 16 GB RAM, 3 GB swap | 0 | pass | pass |
+| Vercel CI task, 2 vCPU / 4 GB | 0 | | exit 134 |
 | Vercel CI task, 4 vCPU / 8 GB | 0 | | pass |
 
 `--threads=1` fails the same way, because the kernel checks each allocation on its own rather than the pool's total.
